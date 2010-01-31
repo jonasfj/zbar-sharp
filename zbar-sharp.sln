@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gtkzbar-cil", "gtkzbar-cil\gtkzbar-cil.csproj", "{71D20483-891A-4C5C-9B59-CCADB7AEE559}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libzbar-cil", "libzbar-cil\libzbar-cil.csproj", "{58D63AA2-59A3-4E02-B833-819727FA8CEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "example", "example\example.csproj", "{9F132E38-14B8-4844-BB84-784746774616}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58D63AA2-59A3-4E02-B833-819727FA8CEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58D63AA2-59A3-4E02-B833-819727FA8CEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58D63AA2-59A3-4E02-B833-819727FA8CEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58D63AA2-59A3-4E02-B833-819727FA8CEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71D20483-891A-4C5C-9B59-CCADB7AEE559}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71D20483-891A-4C5C-9B59-CCADB7AEE559}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71D20483-891A-4C5C-9B59-CCADB7AEE559}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71D20483-891A-4C5C-9B59-CCADB7AEE559}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F132E38-14B8-4844-BB84-784746774616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F132E38-14B8-4844-BB84-784746774616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F132E38-14B8-4844-BB84-784746774616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F132E38-14B8-4844-BB84-784746774616}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		version = 0.1
+		StartupItem = gtkzbar-cil\gtkzbar-cil.csproj
+	EndGlobalSection
+EndGlobal

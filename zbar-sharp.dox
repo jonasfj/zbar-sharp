@@ -1,0 +1,21 @@
+/*! \mainpage ZBar-sharp Documentation
+ * 
+ * \section intro Introduction
+ * ZBar# is contains bindings to a subset of the mid-level zbar 
+ * interfaces, mainly the image scanner and video abstractions.
+ * These bindings is in the ZBar namespace (libzbar-cil.dll), and
+ * are build against ZBar version 0.9, however, it should also work
+ * newer ZBar versions (tested with 0.10).
+ * 
+ * The GtkZBar namespace (gtkzbar-cil.dll) contains a Gtk# widget for
+ * scanning bar codes with Gtk#.
+ * The example namespace (example.exe) is an example application that
+ * shows how to use the Scanner widget.
+ * 
+ * \section fromsrc Building from source
+ * The source can be build using MonoDevelop or Visual Studio, however,
+ * the example needs MonoDevelop for GUI generation. Note, that libzbar
+ * must be in the library path as either libzbar.dll or libzbar.so, or
+ * Windows and Linux respectively.
+ * 
+ */

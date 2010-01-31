@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=gtkzbar-sharp-example
+Exec=gtkzbar-sharp-example
+Terminal=false
+Categories=Utility;
