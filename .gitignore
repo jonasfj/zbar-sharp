@@ -1,0 +1,4 @@
+Debug/
+*.pidb
+*/gtk-gui/*.cs
+zbar-sharp.userprefs
