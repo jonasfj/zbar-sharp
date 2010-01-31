@@ -1,7 +1,7 @@
 ZBar-sharp
 ==========
 
-ZBar-sharp is .Net/Mono bindings for zbar.
-See downloads for available releases, the documentation can be found here:
- * http://jopsen.github.com/zbar-sharp/docs/
+ZBar-sharp is .Net/Mono bindings for zbar. Releases can be found under [downloads](http://github.com/jopsen/zbar-sharp/downloads) and [documentation](http://jopsen.github.com/zbar-sharp/docs/) can be found below:
 
+*   [Documentation](http://jopsen.github.com/zbar-sharp/docs/)
+*   [Downloads](http://github.com/jopsen/zbar-sharp/downloads)
