@@ -175,8 +175,14 @@ namespace ZBar
 			set{
 				IntPtr data = Marshal.AllocHGlobal(value.Length);
 				Marshal.Copy(value, 0, data, value.Length);
-				zbar_image_set_data(this.handle, data, (uint)value.Length, new zbar_image_cleanup_handler(Marshal.FreeHGlobal));
+				zbar_image_set_data(this.handle, data, (uint)value.Length, new zbar_image_cleanup_handler(ReleaseAllocatedUnmanagedMemory));
 			}
+		}
+		
+		private static void ReleaseAllocatedUnmanagedMemory(IntPtr image) {
+			IntPtr pData = zbar_image_get_data(image);
+			if(pData != IntPtr.Zero)
+				Marshal.FreeHGlobal(pData);
 		}
 		
 		/// <value>
