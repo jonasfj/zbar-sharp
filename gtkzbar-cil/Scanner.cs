@@ -217,8 +217,8 @@ namespace GtkZBar
 		private string data = null;
 		private const int overlayFrameCount = 35;
 		private int overlayingFrames = 0;
-		private Pixbuf overlay = Pixbuf.LoadFromResource("check.png");
-		private Pixbuf sourceMissing = Pixbuf.LoadFromResource("webcam.png");
+		private Pixbuf overlay = Pixbuf.LoadFromResource("gtkzbarcil.check.png");
+		private Pixbuf sourceMissing = Pixbuf.LoadFromResource("gtkzbarcil.webcam.png");
 		
 		/// <summary>
 		/// Resets the last item scanned

@@ -6,7 +6,7 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../../gtkzbar-sharp/bin/Debug/gtkzbar-sharp.dll" />
+    <widget-library name="../../gtkzbar-cil/bin/Debug/gtkzbar-cil.dll" />
     <widget-library name="../bin/Debug/example.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="MainWindow" design-size="543 587">
@@ -109,11 +109,12 @@
                     <property name="Tooltip" translatable="yes">Flip video source</property>
                     <property name="CanFocus">True</property>
                     <property name="Type">TextAndIcon</property>
-                    <property name="Icon">resource:flip.png</property>
+                    <property name="Icon">resource:example.flip.png</property>
                     <property name="Label" translatable="yes" />
                     <property name="UseUnderline">True</property>
                     <property name="FocusOnClick">False</property>
                     <property name="Relief">None</property>
+                    <property name="Active">True</property>
                     <signal name="Clicked" handler="OnFlipButtonClicked" />
                   </widget>
                   <packing>
