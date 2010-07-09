@@ -1,5 +1,6 @@
 /docs/
 bin/
 */gtk-gui/*.cs
+*/*/gtk-gui/*.cs
 *.pidb
 zbar-sharp.userprefs
