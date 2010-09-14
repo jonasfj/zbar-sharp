@@ -159,7 +159,52 @@ namespace GtkZBar
 						byte[] data = bwImg.Data;
 						int w = (int)bwImg.Width;
 						int h = (int)bwImg.Height;
-						var symbols = new List<Symbol>(bwImg.Symbols);
+						var symbols = new List<Symbol> (bwImg.Symbols);
+						
+						// Resize
+						// number of pixels to shift in the original image
+						double stepX = (double)w / AllocatedWidth;
+						double stepY = (double)h / AllocatedHeight;
+						
+						// don't do enlarging
+						if (stepX <= 1 && stepY <= 1)
+							return;
+						
+						double smallestStep = Math.Max (stepX, stepY);
+						stepX = stepY = smallestStep;
+						
+						int maxHeight = (int)((double)h / smallestStep);
+						int maxWidth = (int)((double)w / smallestStep);
+						
+						int newPixels = maxWidth * maxHeight;
+						byte[] resizedFrame = new byte[newPixels];
+						
+						double sX = 0, sY = 0;
+						int i;
+						
+						for (int j = 0; j < newPixels; j++) {
+							i = (int)sX + (int)((int)sY * w);
+							
+							// stop exceptions
+							if (i >= data.Length) {
+								Console.WriteLine ("Trying to access {0} on the old frame, up to {1} on new frame", i, j);
+								break;
+							}
+							
+							resizedFrame[j] = data[i];
+							
+							sX += stepX;
+							
+							if ((j + 1) % maxWidth == 0) {
+								sY += stepY;
+								sX = 0;
+							}
+						}
+						
+						w = maxWidth;
+						h = maxHeight;
+						data = resizedFrame;
+						
 						//Flip the image vertically, if needed
 						if(this.Flip){
 							for(int ih = 0; ih < h; ih++){
@@ -172,6 +217,16 @@ namespace GtkZBar
 									data[p1] = data[p2];
 									data[p2] = b1;
 								}
+							}
+						}
+						if (Rotate) {
+							int l = data.Length - 1;
+							for (int p = 0; p < data.Length / 2; p++) {
+								//Swap bytes:
+								var j = l - p;
+								byte b1 = data[j];
+								data[j] = data[p];
+								data[p] = b1;
 							}
 						}
 						//Lock the drawing process and pass it the data we aquired
@@ -279,31 +334,38 @@ namespace GtkZBar
 					}
 					
 					//Draw the gray image
-					int w = Math.Min(rect.Width, this.toDrawWidth);
-					int h = Math.Min(rect.Height, this.toDrawHeight);
+					int w = Math.Min (rect.Size.Width, this.toDrawWidth);
+					int h = Math.Min (rect.Size.Height, this.toDrawHeight);
 					
 					//Draw the image
 					win.DrawGrayImage(gc, 0, 0, w, h, Gdk.RgbDither.Normal, this.toDraw, this.toDrawWidth);
 					
-					if(this.overlayingFrames > 0){
-						w = Math.Min(this.AllocatedWidth, (int)this.overlay.Width);
-						h = Math.Min(this.AllocatedHeight, (int)this.overlay.Height);
+					if (this.overlayingFrames > 0) {
+						
+						Pixbuf overlay_tmp = overlay;
+						if (this.overlay.Width > w * 0.8 || this.overlay.Height > h * 0.8) {
+							int overlayMaxSize = Math.Min (h * 80 / 100, w * 80 / 100);
+							overlay_tmp = overlay.ScaleSimple (overlayMaxSize, overlayMaxSize, InterpType.Bilinear);
+						}
+						
+						w = Math.Min(this.toDrawWidth, (int)overlay_tmp.Width);
+						h = Math.Min(this.toDrawHeight, (int)overlay_tmp.Height);
 						using(Gdk.Pixbuf pix = new Pixbuf(Colorspace.Rgb, true, 8, w, h)){
 							pix.Fill(0x00000000); //Fill with invisibility :)
-							this.overlay.Composite(pix, 0, 0, w, h, 0, 0, 1, 1, InterpType.Bilinear, 255 / 35 * this.overlayingFrames);
+							overlay_tmp.Composite(pix, 0, 0, w, h, 0, 0, 1, 1, InterpType.Bilinear, 255 / 35 * this.overlayingFrames);
 							win.DrawPixbuf(gc, pix, 0, 0,
-							               (this.AllocatedWidth - w) / 2, 
-							               (this.AllocatedHeight - h) / 2, w, h, RgbDither.Normal, 0, 0);
+							               (this.toDrawWidth - w) / 2, 
+							               (this.toDrawHeight - h) / 2, w, h, RgbDither.Normal, 0, 0);
 						}
 					}
 				}else{
 					win.DrawRectangle(gc, true, rect);
 					
-					int w = Math.Min(this.AllocatedWidth, (int)this.sourceMissing.Width);
-					int h = Math.Min(this.AllocatedHeight, (int)this.sourceMissing.Height);
+					int w = Math.Min(this.toDrawWidth, (int)this.sourceMissing.Width);
+					int h = Math.Min(this.toDrawHeight, (int)this.sourceMissing.Height);
 					
-					Rectangle img = new Rectangle((this.AllocatedWidth - w) / 2,
-					                              (this.AllocatedHeight - h) / 2,
+					Rectangle img = new Rectangle((this.toDrawWidth - w) / 2,
+					                              (this.toDrawHeight - h) / 2,
 					                              w, h);
 					Rectangle target = Rectangle.Intersect(img, rect);
 					if(target != Rectangle.Zero){
@@ -330,8 +392,8 @@ namespace GtkZBar
 		private int AllocatedWidth;
 		private int AllocatedHeight;
 		
-		private int reqHeight = 200;
-		private int reqWidth = 200;
+		private int reqHeight = 480;
+		private int reqWidth = 360;
 		
 		protected override void OnSizeRequested(ref Gtk.Requisition requisition){
 			// Calculate desired size here.
@@ -351,7 +413,23 @@ namespace GtkZBar
 		/// Our studies have shown that it is a lot easier to scan bar codes when the webcam is facing you
 		/// if the image is flipped.
 		/// </remarks>
-		public bool Flip{get; set;}
+		public bool Flip { get; set; }
+		
+		/// <value>
+		/// Rotate the image my 180 degrees, default false
+		/// </value>
+		/// <remarks>
+		/// If the camera is facing down media will look the same on screen
+		/// </remarks>
+		public bool Rotate { get; set; }
+
+		/// <value>
+		/// Make the image smaller, default 1
+		/// </value>
+		/// <remarks>
+		/// If the camera is facing down media will look the same on screen
+		/// </remarks>
+		//public int Size { get; set; }
 		
 		/// <summary>
 		/// List potential video sources on the system

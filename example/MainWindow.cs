@@ -7,6 +7,7 @@ public partial class MainWindow: Gtk.Window
 	{
 		Build ();
 		this.Scanner.Open("/dev/video0");
+		Scanner.Rotate = true;
 		this.VideoDevEntry.Text = "/dev/video0";
 		this.Destroyed += HandleDestroyed;
 		this.UpdateMuteButton();
@@ -16,6 +17,7 @@ public partial class MainWindow: Gtk.Window
 		this.Scanner.Close();
 		this.muteImage.Destroy();
 		this.audioImage.Destroy();
+		Application.Quit();
 	}
 	
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a){
@@ -54,4 +56,12 @@ public partial class MainWindow: Gtk.Window
 	protected virtual void OnFlipButtonClicked (object sender, System.EventArgs e){
 		this.Scanner.Flip = this.FlipButton.Active;
 	}
+	
+	protected virtual void OnRotateButtonClicked (object sender, System.EventArgs e)
+	{
+		this.Scanner.Rotate = this.RotateButton.Active;
+	}
+	
+	
+	
 }

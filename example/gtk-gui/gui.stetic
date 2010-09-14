@@ -9,10 +9,11 @@
     <widget-library name="../../gtkzbar-cil/bin/Debug/gtkzbar-cil.dll" />
     <widget-library name="../bin/Debug/example.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="543 587">
+  <widget class="Gtk.Window" id="MainWindow" design-size="563 587">
     <property name="MemberName" />
     <property name="Title" translatable="yes">MainWindow</property>
     <property name="WindowPosition">CenterOnParent</property>
+    <property name="AllowShrink">True</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VPaned" id="vpaned1">
@@ -26,8 +27,10 @@
             <child>
               <widget class="GtkZBar.Scanner" id="Scanner">
                 <property name="MemberName" />
+                <property name="WidthRequest">160</property>
                 <property name="Mute">False</property>
                 <property name="Flip">False</property>
+                <property name="Rotate">False</property>
                 <signal name="BarScanned" handler="OnScannerBarScanned" />
                 <signal name="Error" handler="OnScannerError" />
               </widget>
@@ -119,6 +122,24 @@
                   </widget>
                   <packing>
                     <property name="Position">4</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ToggleButton" id="RotateButton">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="Type">TextAndIcon</property>
+                    <property name="Icon">resource:example.rotate.png</property>
+                    <property name="Label" translatable="yes" />
+                    <property name="UseUnderline">True</property>
+                    <property name="Active">True</property>
+                    <signal name="Clicked" handler="OnRotateButtonClicked" />
+                  </widget>
+                  <packing>
+                    <property name="Position">5</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
