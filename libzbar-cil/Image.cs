@@ -32,6 +32,9 @@ namespace ZBar
 	/// </summary>
 	public class Image : IDisposable
 	{
+		/// <summary>
+		/// Handle to unmanaged ressource
+		/// </summary>
 		private IntPtr handle;
 		
 		/// <summary>
@@ -175,9 +178,14 @@ namespace ZBar
 			set{
 				IntPtr data = Marshal.AllocHGlobal(value.Length);
 				Marshal.Copy(value, 0, data, value.Length);
-				zbar_image_set_data(this.handle, data, (uint)value.Length, new zbar_image_cleanup_handler(ReleaseAllocatedUnmanagedMemory));
+				zbar_image_set_data(this.handle, data, (uint)value.Length, Image.CleanupHandler);
 			}
 		}
+		
+		/// <summary>
+		/// Cleanup handler, by holding the reference statically the delegate won't be released
+		/// </summary>
+		private static zbar_image_cleanup_handler CleanupHandler = new zbar_image_cleanup_handler(ReleaseAllocatedUnmanagedMemory);
 		
 		private static void ReleaseAllocatedUnmanagedMemory(IntPtr image) {
 			IntPtr pData = zbar_image_get_data(image);
