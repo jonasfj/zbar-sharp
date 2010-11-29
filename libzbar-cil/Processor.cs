@@ -15,11 +15,13 @@ namespace ZBar
 
 		public Processor(bool threaded)
 		{
-			this.processor_ = zbar_processor_create(threaded ? 1 : 0);
+			this.processor_ = NativeMethods.zbar_processor_create(
+					threaded ? 1 : 0);
 
 			if(this.processor_ == IntPtr.Zero)
 			{
-				throw new Exception(zbar_processor_error_string(
+				throw new Exception(
+						NativeMethods.zbar_processor_error_string(
 						this.processor_,
 						verbosity) ??
 						"Couldn't create unmanaged processor." +
@@ -41,8 +43,8 @@ namespace ZBar
 						"Cannot destroy. Unmanaged processor is null.");
 			}
 
-			zbar_processor_set_active(this.processor_, 0);
-			zbar_processor_destroy(this.processor_);
+			NativeMethods.zbar_processor_set_active(this.processor_, 0);
+			NativeMethods.zbar_processor_destroy(this.processor_);
 
 			this.processor_ = IntPtr.Zero;
 		}
@@ -68,7 +70,7 @@ namespace ZBar
 
 		public void Init(string video, bool enableDisplay)
 		{
-			zbar_processor_init(
+			NativeMethods.zbar_processor_init(
 					this.processor_,
 					video,
 					enableDisplay ? 1 : 0);
@@ -89,13 +91,14 @@ namespace ZBar
 						"is null.");
 			}
 
-			var result = zbar_processor_parse_config(
+			var result = NativeMethods.zbar_processor_parse_config(
 					this.processor_,
 					configString);
 
 			if(result != 0)
 			{
-				throw new Exception(zbar_processor_error_string(
+				throw new Exception(
+						NativeMethods.zbar_processor_error_string(
 						this.processor_,
 						verbosity) ??
 						"Cannot parse unmanaged processor config. " +
@@ -112,14 +115,15 @@ namespace ZBar
 						"is null.");
 			}
 
-			var result = zbar_processor_request_size(
+			var result = NativeMethods.zbar_processor_request_size(
 					this.processor_,
 					width,
 					height);
 
 			if(result != 0)
 			{
-				throw new Exception(zbar_processor_error_string(
+				throw new Exception(
+						NativeMethods.zbar_processor_error_string(
 						this.processor_,
 						verbosity) ??
 						"Cannot request unmanaged processor size. " +
@@ -136,13 +140,14 @@ namespace ZBar
 						"is null.");
 			}
 
-			var result = zbar_processor_set_active(
+			var result = NativeMethods.zbar_processor_set_active(
 					this.processor_,
 					active ? 1 : 0);
 
 			if(result != 0)
 			{
-				throw new Exception(zbar_processor_error_string(
+				throw new Exception(
+						NativeMethods.zbar_processor_error_string(
 						this.processor_,
 						verbosity) ??
 						"Cannot set unmanaged processor active." +
@@ -162,7 +167,7 @@ namespace ZBar
 						"is null.");
 			}
 
-			var result = zbar_processor_set_config(
+			var result = NativeMethods.zbar_processor_set_config(
 					this.processor_,
 					(int)symbology,
 					(int)config,
@@ -170,7 +175,8 @@ namespace ZBar
 
 			if(result != 0)
 			{
-				throw new Exception(zbar_processor_error_string(
+				throw new Exception(
+						NativeMethods.zbar_processor_error_string(
 						this.processor_,
 						verbosity) ??
 						"Cannot set unmanaged processor config. " +
@@ -189,7 +195,7 @@ namespace ZBar
 						"is null.");
 			}
 
-			return zbar_processor_set_data_handler(
+			return NativeMethods.zbar_processor_set_data_handler(
 					this.processor_,
 					handler,
 					userdata);
@@ -210,13 +216,14 @@ namespace ZBar
 						"is null.");
 			}
 
-			var result = zbar_processor_user_wait(
+			var result = NativeMethods.zbar_processor_user_wait(
 					this.processor_,
 					timeout);
 
 			if(result == -1)
 			{
-				throw new Exception(zbar_processor_error_string(
+				throw new Exception(
+						NativeMethods.zbar_processor_error_string(
 						this.processor_,
 						verbosity) ??
 						"Failed to wait for user. Reason unknown.");
@@ -236,11 +243,13 @@ namespace ZBar
 							"is null.");
 				}
 
-				var status = zbar_processor_is_visible(this.processor_);
+				var status = NativeMethods.zbar_processor_is_visible(
+						this.processor_);
 
 				if(status == -1)
 				{
-					throw new Exception(zbar_processor_error_string(
+					throw new Exception(
+							NativeMethods.zbar_processor_error_string(
 							this.processor_,
 							verbosity) ??
 							"Failed to get visible. Reason unknown.");
@@ -258,13 +267,14 @@ namespace ZBar
 							"is null.");
 				}
 
-				var result = zbar_processor_set_visible(
+				var result = NativeMethods.zbar_processor_set_visible(
 						this.processor_,
 						value ? 1 : 0);
 
 				if(result != 0)
 				{
-					throw new Exception(zbar_processor_error_string(
+					throw new Exception(
+							NativeMethods.zbar_processor_error_string(
 							this.processor_,
 							verbosity) ??
 							"Cannot set unmanaged processor visible. " +
@@ -309,80 +319,85 @@ namespace ZBar
 				IntPtr image,
 				IntPtr userdata);
 
-		[DllImport("libzbar")]
-		private static extern IntPtr zbar_processor_create(int threaded);
-
-		[DllImport("libzbar")]
-		private static extern void zbar_processor_destroy(
-				IntPtr processor);
-
-		//[DllImport("libzbar")]
-		//private static extern string zbar_processor_error_string(
-		//		IntPtr processor,
-		//		int verbosity);
-		private static string zbar_processor_error_string(
-				IntPtr processor,
-				int verbosity)
+		private class NativeMethods
 		{
-			return _zbar_error_string(processor, verbosity);
+			[DllImport("libzbar")]
+			public static extern IntPtr zbar_processor_create(
+					int threaded);
+
+			[DllImport("libzbar")]
+			public static extern void zbar_processor_destroy(
+					IntPtr processor);
+
+			//[DllImport("libzbar")]
+			//public static extern string zbar_processor_error_string(
+			//    	IntPtr processor,
+			//    	int verbosity);
+			public static string zbar_processor_error_string(
+					IntPtr processor,
+					int verbosity)
+			{
+				return _zbar_error_string(processor, verbosity);
+			}
+
+			[DllImport("libzbar")]
+			public static extern string _zbar_error_string(
+					IntPtr object_,
+					int verbosity);
+
+			[DllImport("libzbar")]
+			public static extern IntPtr zbar_processor_get_results(
+					IntPtr processor);
+
+			[DllImport("libzbar")]
+			public static extern void zbar_processor_init(
+					IntPtr processor,
+					string video,
+					int enable_display);
+
+			[DllImport("libzbar")]
+			public static extern int zbar_processor_is_visible(
+					IntPtr processor);
+
+			[DllImport("libzbar")]
+			public static extern int zbar_processor_parse_config(
+					IntPtr processor,
+					string config_string);
+
+			[DllImport("libzbar")]
+			public static extern int zbar_processor_request_size(
+					IntPtr processor,
+					uint width,
+					uint height);
+
+			[DllImport("libzbar")]
+			public static extern int zbar_processor_set_active(
+					IntPtr processor,
+					int active);
+
+			[DllImport("libzbar")]
+			public static extern int zbar_processor_set_config(
+					IntPtr processor,
+					int symbology,
+					int config,
+					int value);
+
+			[DllImport("libzbar")]
+			public static extern IntPtr zbar_processor_set_data_handler(
+					IntPtr processor,
+					zbar_image_data_handler_t handler,
+					IntPtr userdata);
+
+			[DllImport("libzbar")]
+			public static extern int zbar_processor_set_visible(
+					IntPtr processor,
+					int visible);
+
+			[DllImport("libzbar")]
+			public static extern int zbar_processor_user_wait(
+					IntPtr processor,
+					int timeout);
 		}
-
-		[DllImport("libzbar")]
-		private static extern string _zbar_error_string(
-				IntPtr object_,
-				int verbosity);
-
-		[DllImport("libzbar")]
-		private static extern IntPtr zbar_processor_get_results(
-				IntPtr processor);
-
-		[DllImport("libzbar")]
-		private static extern void zbar_processor_init(
-				IntPtr processor,
-				string video,
-				int enable_display);
-
-		[DllImport("libzbar")]
-		private static extern int zbar_processor_is_visible(IntPtr processor);
-
-		[DllImport("libzbar")]
-		private static extern int zbar_processor_parse_config(
-				IntPtr processor,
-				string config_string);
-
-		[DllImport("libzbar")]
-		private static extern int zbar_processor_request_size(
-				IntPtr processor,
-				uint width,
-				uint height);
-
-		[DllImport("libzbar")]
-		private static extern int zbar_processor_set_active(
-				IntPtr processor,
-				int active);
-
-		[DllImport("libzbar")]
-		private static extern int zbar_processor_set_config(
-				IntPtr processor,
-				int symbology,
-				int config,
-				int value);
-
-		[DllImport("libzbar")]
-		private static extern IntPtr zbar_processor_set_data_handler(
-				IntPtr processor,
-				zbar_image_data_handler_t handler,
-				IntPtr userdata);
-
-		[DllImport("libzbar")]
-		private static extern int zbar_processor_set_visible(
-				IntPtr processor,
-				int visible);
-
-		[DllImport("libzbar")]
-		private static extern int zbar_processor_user_wait(
-				IntPtr processor,
-				int timeout);
 
 		#endregion
 	}
