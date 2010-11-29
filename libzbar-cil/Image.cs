@@ -218,6 +218,17 @@ namespace ZBar
 		
 		#endregion
 		
+		/// <summary>
+		/// Wraps the image with an internal constructor, incrementing
+		/// the reference count.
+		/// 
+		/// (*Unconfirmed*)
+		/// </summary>
+		public static Image Wrap(IntPtr image)
+		{
+			return new Image(image, true);
+		}
+
 		#region IDisposable Implementation
 		//This pattern for implementing IDisposable is recommended by:
 		//Framework Design Guidelines, 2. Edition, Section 9.4
