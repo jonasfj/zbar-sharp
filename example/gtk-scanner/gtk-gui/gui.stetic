@@ -6,7 +6,7 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../../gtkzbar-cil/bin/Debug/gtkzbar-cil.dll" />
+    <widget-library name="../../../gtkzbar-cil/bin/Debug/gtkzbar-cil.dll" />
     <widget-library name="../bin/Debug/example.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="MainWindow" design-size="563 587">
@@ -19,7 +19,7 @@
       <widget class="Gtk.VPaned" id="vpaned1">
         <property name="MemberName" />
         <property name="CanFocus">True</property>
-        <property name="Position">330</property>
+        <property name="Position">139</property>
         <child>
           <widget class="Gtk.VBox" id="vbox1">
             <property name="MemberName" />
@@ -135,6 +135,8 @@
                     <property name="Icon">resource:example.rotate.png</property>
                     <property name="Label" translatable="yes" />
                     <property name="UseUnderline">True</property>
+                    <property name="FocusOnClick">False</property>
+                    <property name="Relief">None</property>
                     <property name="Active">True</property>
                     <signal name="Clicked" handler="OnRotateButtonClicked" />
                   </widget>
