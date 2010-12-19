@@ -24,6 +24,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ZBar</RootNamespace>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -36,6 +37,7 @@
     <DebugSymbols>true</DebugSymbols>
     <RootNamespace>ZBar</RootNamespace>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -47,6 +49,10 @@
     <Compile Include="Symbol.cs" />
     <Compile Include="Video.cs" />
     <Compile Include="ZBarException.cs" />
+    <Compile Include="Processor.cs" />
+    <Compile Include="SymbolSet.cs" />
+    <Compile Include="ZBar.cs" />
+    <Compile Include="ImageDataEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
