@@ -83,7 +83,7 @@ namespace ZBar
 		/// before it is scanned, as ZBar only reads images in GREY/Y800
 		/// </remarks>
 		public Image(System.Drawing.Image image) : this() {
-			Byte[] data = new byte[image.Width * image.Height * 3 - 1];
+			Byte[] data = new byte[image.Width * image.Height * 3];
 			//Convert the image to RBG3
 			using(Bitmap bitmap = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb)){
 				using(Graphics g = Graphics.FromImage(bitmap)){

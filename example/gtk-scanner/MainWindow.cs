@@ -38,8 +38,8 @@ public partial class MainWindow: Gtk.Window
 	}
 	
 	//Load images from resources
-	private Gtk.Image muteImage = new Gtk.Image(null, "example.muted.png");
-	private Gtk.Image audioImage = new Gtk.Image(null, "example.audio.png");
+	private Gtk.Image muteImage = new Gtk.Image(null, "muted.png");
+	private Gtk.Image audioImage = new Gtk.Image(null, "audio.png");
 	
 	protected virtual void OnMuteButtonClicked (object sender, System.EventArgs e){
 		this.Scanner.Mute = !this.Scanner.Mute;

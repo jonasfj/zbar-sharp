@@ -6,42 +6,48 @@ using ZBar;
 
 namespace BMPScanner
 {
+	/// <summary>
+	/// Simple example program that scans images given as argument 
+	/// </summary>
+	/// <remarks>If no argument is provided, it scans a file called barcode.bmp</remarks>
 	class Program
 	{
-		static void Main(string[] args) {
-			//Don't care to read the header now... it takes time :)
-			//So I'm just hardcoding size...
-			uint width = 1200;
-			uint height = 775;
-			byte[] data = new byte[width * height * 3];
-			//Read the file
-			using(FileStream fs = new FileStream("barcode.bmp", FileMode.Open)) {
-				//Skip the header
-				fs.Seek(54, SeekOrigin.Begin);
-				fs.Read(data, 0, data.Length);
-			}
-
-            //Create an empty image instance
-			Image img = new Image();
-			img.Data = data; //Set the data property
-			img.Width = width; //Set width and height
-			img.Height = height;
-			img.Format = 0x33424752; //Trying with RGB3, as I know it's 24bit BMP
-			Image grey = img.Convert(0x30303859); //Convert to GREY/Y800
+		static void Main(string[] args){
+			//List of files to scan
+			List<string> files = new List<string>();
 			
-            //Create a scanner
-			using(ImageScanner scanner = new ImageScanner()) {
+			//Copy arguments into files (ignore this part)
+			for(int i = 1; i < args.Length; i++){
+				if(args[i] == "--help" || args[i] == "-h")
+					Console.WriteLine("Usage ./{0} [file1] [file2] [file3] ...", args[0]);
+				else
+					files.Add(args[i]);
+			}
+			if(files.Count == 0)
+				files.Add("barcode.bmp");
+			
+			//Create an instance of scanner
+			using(ImageScanner scanner = new ImageScanner()){
+				//We won't use caching here
 				scanner.Cache = false;
-				scanner.Scan(grey); //Scan the image
+				
+				//For each file that we need scanned
+				foreach(string file in files){
+					Console.WriteLine("Symbols in {0}:", file);
+					
+					//Open the file, using System.Drawing to read it
+					System.Drawing.Image img = System.Drawing.Image.FromFile(file);
+					
+					//Scan the image for symbols, using System.Drawing and ZBar for conversation
+					//Please note that this is no way an efficient implementation, more optimizations
+					//of the conversation code etc, could easily be implemented.
+					List<Symbol> symbols = scanner.Scan(img);
+					
+					//For each symbol we've found
+					foreach(Symbol symbol in symbols)
+						Console.WriteLine("\t" + symbol.ToString());
+				}
 			}
-
-			Console.WriteLine("Symboles: ");
-            //Now enumerate over the symboles found... These have been associated with grey
-			foreach(Symbol sym in grey.Symbols) {
-				Console.WriteLine(sym.ToString());
-			}
-			Console.WriteLine("-End of program-");
-            Console.ReadLine();
 		}
 	}
 }

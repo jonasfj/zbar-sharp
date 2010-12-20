@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9F132E38-14B8-4844-BB84-784746774616}</ProjectGuid>
+    <ProjectGuid>{A7EB2EBD-8B47-4470-867C-168DCBDC7E2E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AssemblyName>example</AssemblyName>
+    <AssemblyName>gtk-scanner</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RootNamespace>example</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,27 +27,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-      <Package>gtk-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-      <Package>gtk-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-      <Package>glib-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-      <Package>glade-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-      <Package>gtk-sharp-2.0</Package>
-    </Reference>
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="Mono.Posix" />
   </ItemGroup>
   <ItemGroup>
@@ -62,26 +42,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="MainWindow.cs" />
     <Compile Include="gtk-gui\MainWindow.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="MainWindow.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.desktop" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\gtkzbar-cil\gtkzbar-cil.csproj">
+    <ProjectReference Include="..\..\libzbar-cil\libzbar-cil.csproj">
+      <Project>{58D63AA2-59A3-4E02-B833-819727FA8CEE}</Project>
+      <Name>libzbar-cil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\gtkzbar-cil\gtkzbar-cil.csproj">
       <Project>{71D20483-891A-4C5C-9B59-CCADB7AEE559}</Project>
       <Name>gtkzbar-cil</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Deployment.LinuxDeployData scriptName="gtkzbar-sharp-example" />
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
 </Project>

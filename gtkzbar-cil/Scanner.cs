@@ -512,7 +512,7 @@ namespace GtkZBar
 									throw new Exception("Don't use anything we've got here...");
 							}
 						}
-						catch(Exception e){
+						catch(Exception){
 							//I can at least add a space to make it look good :)
 							name = "Video " + System.IO.Path.GetFileName(device).Remove(0, 5);
 						}

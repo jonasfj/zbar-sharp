@@ -23,6 +23,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace ZBar
 {
@@ -48,7 +49,10 @@ namespace ZBar
 		/// <summary>
 		/// Scan an image for symbols
 		/// </summary>
-		/// <remarks>Once an image have been scanned the result will be associated with the image.</remarks>
+		/// <remarks>
+		/// Once an image have been scanned the result will be associated with the image.
+		/// Use image.Symbols to access the symbol list.
+		/// </remarks>
 		/// <param name="image">
 		/// A <see cref="Image"/> to be scanned
 		/// </param>
@@ -60,6 +64,29 @@ namespace ZBar
 			if(count < 0)
 				throw new Exception("Image scanning failed!");
 			return count;
+		}
+		
+		/// <summary>
+		/// Scan an image for symbols
+		/// </summary>
+		/// <param name="image">
+		/// A <see cref="System.Drawing.Image"/> to be scanned for symbols
+		/// </param>
+		/// <remarks>
+		/// This method convert the image to the appropriate format,
+		/// and release the converted image immidiately. While copying
+		/// all the symbols to a list.
+		/// </remarks>
+		/// <returns>
+		/// A list of symbols found in the image
+		/// </returns>
+		public List<Symbol> Scan(System.Drawing.Image image){
+			using(Image zimg = new Image(image)){
+				using(Image grey = zimg.Convert(0x30303859)){
+					this.Scan(grey);
+					return new List<Symbol>(grey.Symbols);
+				}
+			}
 		}
 		
 		/// <value>
