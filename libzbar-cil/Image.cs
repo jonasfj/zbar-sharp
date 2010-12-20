@@ -24,6 +24,9 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace ZBar
 {
@@ -35,7 +38,7 @@ namespace ZBar
 		/// <summary>
 		/// Handle to unmanaged ressource
 		/// </summary>
-		private IntPtr handle;
+		private IntPtr handle = IntPtr.Zero;
 		
 		/// <summary>
 		/// Create a new image from a pointer to an unmanaged resource
@@ -67,6 +70,37 @@ namespace ZBar
 			this.handle = zbar_image_create();
 			if(this.handle == IntPtr.Zero)
 				throw new Exception("Failed to create new image!");
+		}
+		
+		/// <summary>
+		/// Create image from an instance of System.Drawing.Image
+		/// </summary>
+		/// <param name="image">
+		/// Image to convert to ZBar.Image
+		/// </param>
+		/// <remarks>
+		/// The converted image is in RGB3 format, so it should be converted using Image.Convert()
+		/// before it is scanned, as ZBar only reads images in GREY/Y800
+		/// </remarks>
+		public Image(System.Drawing.Image image) : this() {
+			Byte[] data = new byte[image.Width * image.Height * 3 - 1];
+			//Convert the image to RBG3
+			using(Bitmap bitmap = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb)){
+				using(Graphics g = Graphics.FromImage(bitmap)){
+					g.PageUnit = GraphicsUnit.Pixel;
+					g.DrawImageUnscaled(image, 0, 0);
+				}
+				using(MemoryStream ms = new MemoryStream()){
+					bitmap.Save(ms, ImageFormat.Bmp);
+					ms.Seek(54, SeekOrigin.Begin);
+					ms.Read(data, 0, data.Length);
+				}
+			}
+			//Set the data
+			this.Data = data;
+			this.Width = (uint)image.Width;
+			this.Height = (uint)image.Height;
+			this.Format = 0x33424752;
 		}
 		
 		/// <summary>
