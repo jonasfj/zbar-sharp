@@ -1,6 +1,5 @@
 /*------------------------------------------------------------------------
  *  Copyright 2009 (c) Jonas Finnemann Jensen <jopsen@gmail.com>
- *  Copyright 2007-2009 (c) Jeff Brown <spadix@users.sourceforge.net>
  * 
  *  This file is part of the ZBar CIL Wrapper.
  *
