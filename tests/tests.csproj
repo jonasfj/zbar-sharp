@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0DEB2082-ECDC-4728-BC26-CFB6EB5FADAB}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <AssemblyName>bmp-scanner</AssemblyName>
+    <ProjectGuid>{C10BFAB4-DF26-4637-89F3-5E603BA91A43}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -28,19 +28,30 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="nunit.core, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Package>nunit</Package>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Package>nunit</Package>
+    </Reference>
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bmp-scanner.cs" />
+    <Compile Include="FourCC.cs" />
+    <Compile Include="BmpScanning.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libzbar-cil\libzbar-cil.csproj">
+    <ProjectReference Include="..\libzbar-cil\libzbar-cil.csproj">
       <Project>{58D63AA2-59A3-4E02-B833-819727FA8CEE}</Project>
       <Name>libzbar-cil</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="barcode.bmp">
+    <Folder Include="images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\barcode.bmp">
+      <Gettext-ScanForTranslations>false</Gettext-ScanForTranslations>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

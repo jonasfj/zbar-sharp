@@ -11,10 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bmp-scanner", "example\bmp-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gtk-scanner", "example\gtk-scanner\gtk-scanner.csproj", "{A7EB2EBD-8B47-4470-867C-168DCBDC7E2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{C10BFAB4-DF26-4637-89F3-5E603BA91A43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Default|Any CPU = Default|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0DEB2082-ECDC-4728-BC26-CFB6EB5FADAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -33,6 +36,12 @@ Global
 		{A7EB2EBD-8B47-4470-867C-168DCBDC7E2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7EB2EBD-8B47-4470-867C-168DCBDC7E2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7EB2EBD-8B47-4470-867C-168DCBDC7E2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C10BFAB4-DF26-4637-89F3-5E603BA91A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C10BFAB4-DF26-4637-89F3-5E603BA91A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C10BFAB4-DF26-4637-89F3-5E603BA91A43}.Default|Any CPU.ActiveCfg = Default|Any CPU
+		{C10BFAB4-DF26-4637-89F3-5E603BA91A43}.Default|Any CPU.Build.0 = Default|Any CPU
+		{C10BFAB4-DF26-4637-89F3-5E603BA91A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C10BFAB4-DF26-4637-89F3-5E603BA91A43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0DEB2082-ECDC-4728-BC26-CFB6EB5FADAB} = {E10E1933-003B-4E0E-8B58-A88E4CA36670}

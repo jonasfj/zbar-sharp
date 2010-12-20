@@ -100,7 +100,7 @@ namespace ZBar
 			this.Data = data;
 			this.Width = (uint)image.Width;
 			this.Height = (uint)image.Height;
-			this.Format = 0x33424752;
+			this.Format = FourCC('R', 'G', 'B', '3');
 		}
 		
 		/// <summary>
@@ -120,7 +120,6 @@ namespace ZBar
 		/// </value>
 		internal IntPtr Handle{
 			get{
-				
 				return this.handle;
 			}
 		}
@@ -173,7 +172,12 @@ namespace ZBar
 		/// <value>
 		/// Get/set the fourcc image format code for image sample data. 
 		/// </value>
-		/// <remarks>Chaning this doesn't affect the data.</remarks>
+		/// <remarks>
+		/// Chaning this doesn't affect the data.
+		/// See Image.FourCC for how to get the fourCC code.
+		/// For information on supported format see:
+		/// http://sourceforge.net/apps/mediawiki/zbar/index.php?title=Supported_image_formats
+		/// </remarks>
 		public uint Format{
 			get{
 				return zbar_image_get_format(this.handle);
@@ -243,7 +247,10 @@ namespace ZBar
 		/// <summary>
 		/// Image format conversion. refer to the documentation for supported image formats
 		/// </summary>
-		/// <remarks>The converted image size may be rounded (up) due to format constraints</remarks>
+		/// <remarks>
+		/// The converted image size may be rounded (up) due to format constraints.
+		/// See Image.FourCC for how to get the fourCC code.
+		/// </remarks>
 		/// <param name="format">
 		/// FourCC format to convert to.
 		/// </param>
@@ -256,6 +263,18 @@ namespace ZBar
 			if(img == IntPtr.Zero)
 				throw new Exception("Conversation failed!");
 			return new Image(img, false);
+		}
+		
+		/// <summary>
+		/// Get FourCC code from four chars
+		/// </summary>
+		/// <remarks>
+		/// See FourCC.org for more information on FourCC.
+		/// For information on format supported by zbar see:
+		/// http://sourceforge.net/apps/mediawiki/zbar/index.php?title=Supported_image_formats
+		/// </remarks>
+		public static uint FourCC(char c0, char c1, char c2, char c3){
+			return (uint)c0 | ((uint)c1) << 8 | ((uint)c2) << 16 | ((uint)c3) << 24;
 		}
 		
 		#endregion
