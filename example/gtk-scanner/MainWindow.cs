@@ -3,25 +3,19 @@ using Gtk;
 
 public partial class MainWindow: Gtk.Window
 {	
-	public MainWindow (): base (Gtk.WindowType.Toplevel)
-	{
+	public MainWindow (): base (Gtk.WindowType.Toplevel){
 		Build ();
 		this.Scanner.Open("/dev/video0");
 		Scanner.Rotate = true;
 		this.VideoDevEntry.Text = "/dev/video0";
-		this.Destroyed += HandleDestroyed;
 		this.UpdateMuteButton();
 	}
-
-	void HandleDestroyed(object sender, EventArgs e){
+	
+	protected void OnDeleteEvent(object sender, DeleteEventArgs a){
 		this.Scanner.Close();
 		this.muteImage.Destroy();
 		this.audioImage.Destroy();
 		Application.Quit();
-	}
-	
-	protected void OnDeleteEvent (object sender, DeleteEventArgs a){
-		Application.Quit ();
 		a.RetVal = true;
 	}
 
@@ -57,11 +51,7 @@ public partial class MainWindow: Gtk.Window
 		this.Scanner.Flip = this.FlipButton.Active;
 	}
 	
-	protected virtual void OnRotateButtonClicked (object sender, System.EventArgs e)
-	{
+	protected virtual void OnRotateButtonClicked (object sender, System.EventArgs e){
 		this.Scanner.Rotate = this.RotateButton.Active;
 	}
-	
-	
-	
 }

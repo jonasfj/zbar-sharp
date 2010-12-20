@@ -18,7 +18,7 @@
       <widget class="Gtk.VPaned" id="vpaned1">
         <property name="MemberName" />
         <property name="CanFocus">True</property>
-        <property name="Position">139</property>
+        <property name="Position">144</property>
         <child>
           <widget class="Gtk.VBox" id="vbox1">
             <property name="MemberName" />
