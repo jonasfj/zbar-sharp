@@ -225,17 +225,6 @@ namespace ZBar
 		}
 		
 		#endregion
-		
-		/// <summary>
-		/// Wraps the image with an internal constructor, incrementing
-		/// the reference count.
-		/// 
-		/// (*Unconfirmed*)
-		/// </summary>
-		public static Image Wrap(IntPtr image)
-		{
-			return new Image(image, true);
-		}
 
 		#region IDisposable Implementation
 		//This pattern for implementing IDisposable is recommended by:
@@ -253,10 +242,10 @@ namespace ZBar
 		/// A <see cref="System.Boolean"/> False if called from the finalizer, True if called from Dispose.
 		/// </param>
 		protected virtual void Dispose(bool disposing){
-                if (this.handle != IntPtr.Zero) {
-                    zbar_image_destroy(this.handle);
-                    this.handle = IntPtr.Zero;
-                }
+			if (this.handle != IntPtr.Zero) {
+				zbar_image_destroy(this.handle);
+				this.handle = IntPtr.Zero;
+			}
 			if(disposing){
 				//Release finalizable resources, at the moment none.
 			}
