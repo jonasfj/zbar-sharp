@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------
- *  Copyright 2009 (c) Brandon McCaig <jopsen@gmail.com>
+ *  Copyright 2009 (c) Brandon McCaig and <jopsen@gmail.com>
  *
  *  This file is part of the ZBar CIL Wrapper.
  *
