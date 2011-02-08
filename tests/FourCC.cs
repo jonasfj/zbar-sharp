@@ -1,6 +1,6 @@
 /*------------------------------------------------------------------------
- *  Copyright 2009 (c) Brandon McCaig <jopsen@gmail.com>
- *
+ *  Copyright 2010 (c) Jonas Finnemann Jensen <jopsen@gmail.com>
+ * 
  *  This file is part of the ZBar CIL Wrapper.
  *
  *  The ZBar CIL Wrapper is free software; you can redistribute it
@@ -19,42 +19,25 @@
  *  Boston, MA  02110-1301  USA
  * 
  *------------------------------------------------------------------------*/
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+using NUnit.Framework;
+using ZBar;
 
-namespace ZBar
+namespace tests
 {
-	public static class ZBar
-	{
-		/// <value>
-		/// Get version of the underlying zbar library
-		/// </value>
-		public static Version Version{
-			get{
-				uint major = 0;
-				uint minor = 0;
-
-				unsafe{
-					if(NativeMethods.zbar_version(&major, &minor) != 0){
-						throw new Exception("Failed to get ZBar version.");
-					}
-				}
-
-				return new Version((int)major, (int)minor);
-		   }
+	/// <summary>
+	/// Tests to see if Image.FourCC works
+	/// </summary>
+	[TestFixture()]
+	public class FourCC
+	{		
+		[Test()]
+		public void TestRGB3(){
+			Assert.AreEqual(0x33424752, Image.FourCC('R', 'G', 'B', '3'), "FourCC code are not computed correctly!");
 		}
-
-		#region Extern C Functions.
-
-		private static class NativeMethods{
-			[DllImport("libzbar")]
-			public static unsafe extern int zbar_version(uint* major, uint* minor);
+		[Test()]
+		public void TestY800(){
+			Assert.AreEqual(0x30303859, Image.FourCC('Y', '8', '0', '0'), "FourCC code are not computed correctly!");
 		}
-
-		#endregion
 	}
 }

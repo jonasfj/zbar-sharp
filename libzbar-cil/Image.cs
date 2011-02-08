@@ -24,6 +24,9 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace ZBar
 {
@@ -35,7 +38,7 @@ namespace ZBar
 		/// <summary>
 		/// Handle to unmanaged ressource
 		/// </summary>
-		private IntPtr handle;
+		private IntPtr handle = IntPtr.Zero;
 		
 		/// <summary>
 		/// Create a new image from a pointer to an unmanaged resource
@@ -70,6 +73,37 @@ namespace ZBar
 		}
 		
 		/// <summary>
+		/// Create image from an instance of System.Drawing.Image
+		/// </summary>
+		/// <param name="image">
+		/// Image to convert to ZBar.Image
+		/// </param>
+		/// <remarks>
+		/// The converted image is in RGB3 format, so it should be converted using Image.Convert()
+		/// before it is scanned, as ZBar only reads images in GREY/Y800
+		/// </remarks>
+		public Image(System.Drawing.Image image) : this() {
+			Byte[] data = new byte[image.Width * image.Height * 3];
+			//Convert the image to RBG3
+			using(Bitmap bitmap = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb)){
+				using(Graphics g = Graphics.FromImage(bitmap)){
+					g.PageUnit = GraphicsUnit.Pixel;
+					g.DrawImageUnscaled(image, 0, 0);
+				}
+				using(MemoryStream ms = new MemoryStream()){
+					bitmap.Save(ms, ImageFormat.Bmp);
+					ms.Seek(54, SeekOrigin.Begin);
+					ms.Read(data, 0, data.Length);
+				}
+			}
+			//Set the data
+			this.Data = data;
+			this.Width = (uint)image.Width;
+			this.Height = (uint)image.Height;
+			this.Format = FourCC('R', 'G', 'B', '3');
+		}
+		
+		/// <summary>
 		/// Load image from file in the same format as written by Dump()
 		/// </summary>
 		/// <param name="filename">
@@ -86,7 +120,6 @@ namespace ZBar
 		/// </value>
 		internal IntPtr Handle{
 			get{
-				
 				return this.handle;
 			}
 		}
@@ -139,7 +172,12 @@ namespace ZBar
 		/// <value>
 		/// Get/set the fourcc image format code for image sample data. 
 		/// </value>
-		/// <remarks>Chaning this doesn't affect the data.</remarks>
+		/// <remarks>
+		/// Chaning this doesn't affect the data.
+		/// See Image.FourCC for how to get the fourCC code.
+		/// For information on supported format see:
+		/// http://sourceforge.net/apps/mediawiki/zbar/index.php?title=Supported_image_formats
+		/// </remarks>
 		public uint Format{
 			get{
 				return zbar_image_get_format(this.handle);
@@ -209,7 +247,10 @@ namespace ZBar
 		/// <summary>
 		/// Image format conversion. refer to the documentation for supported image formats
 		/// </summary>
-		/// <remarks>The converted image size may be rounded (up) due to format constraints</remarks>
+		/// <remarks>
+		/// The converted image size may be rounded (up) due to format constraints.
+		/// See Image.FourCC for how to get the fourCC code.
+		/// </remarks>
 		/// <param name="format">
 		/// FourCC format to convert to.
 		/// </param>
@@ -222,6 +263,18 @@ namespace ZBar
 			if(img == IntPtr.Zero)
 				throw new Exception("Conversation failed!");
 			return new Image(img, false);
+		}
+		
+		/// <summary>
+		/// Get FourCC code from four chars
+		/// </summary>
+		/// <remarks>
+		/// See FourCC.org for more information on FourCC.
+		/// For information on format supported by zbar see:
+		/// http://sourceforge.net/apps/mediawiki/zbar/index.php?title=Supported_image_formats
+		/// </remarks>
+		public static uint FourCC(char c0, char c1, char c2, char c3){
+			return (uint)c0 | ((uint)c1) << 8 | ((uint)c2) << 16 | ((uint)c3) << 24;
 		}
 		
 		#endregion

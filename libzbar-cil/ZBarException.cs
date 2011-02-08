@@ -1,6 +1,5 @@
 /*------------------------------------------------------------------------
  *  Copyright 2009 (c) Jonas Finnemann Jensen <jopsen@gmail.com>
- *  Copyright 2007-2009 (c) Jeff Brown <spadix@users.sourceforge.net>
  *
  *  This file is part of the ZBar CIL Wrapper.
  *
@@ -31,13 +30,24 @@ namespace ZBar
 	/// </summary>
 	public sealed class ZBarException : Exception
 	{
+		/// <summary>
+		/// Verbosity constant, for errors
+		/// </summary>
+		private const int verbosity = 10;
+		
+		/// <summary>
+		/// Error message
+		/// </summary>
 		private string message;
+		
+		/// <summary>
+		/// Error code
+		/// </summary>
 		private ZBarError code;
 		
-		internal ZBarException(IntPtr obj)
-		{
+		internal ZBarException(IntPtr obj){
 			this.code = (ZBarError)_zbar_get_error_code(obj);
-			this.message = Marshal.PtrToStringAnsi(_zbar_error_string(obj, 4));
+			this.message = Marshal.PtrToStringAnsi(_zbar_error_string(obj, verbosity));
 		}
 		
 		/// <value>
@@ -68,9 +78,12 @@ namespace ZBar
 	/// <summary>
 	/// Error codes
 	/// </summary>
+	/// <remarks>
+	/// The ordering matches zbar_error_t from zbar.h
+	/// </remarks>
 	public enum ZBarError{
 		/// <summary>
-		/// No error
+		/// No error, or zbar is not aware of the error
 		/// </summary>
 		Ok = 0,
 		

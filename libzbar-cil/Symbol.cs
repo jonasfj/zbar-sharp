@@ -290,6 +290,11 @@ namespace ZBar
 		PDF417	= 57,
 		
 		/// <summary>
+		/// QR Code
+		/// </summary>
+		QRCODE  = 64,
+		
+		/// <summary>
 		/// Code 128
 		/// </summary>
 		CODE128 = 128,

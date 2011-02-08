@@ -5,11 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{71D20483-891A-4C5C-9B59-CCADB7AEE559}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AssemblyName>gtkzbar-cil</AssemblyName>
+    <ProjectGuid>{0DEB2082-ECDC-4728-BC26-CFB6EB5FADAB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>bmp-scanner</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RootNamespace>gtkzbarcil</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,7 +18,6 @@
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -27,28 +25,24 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Scanner.cs" />
-    <Compile Include="BarScannedArgs.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <EmbeddedResource Include="webcam.png" />
-    <EmbeddedResource Include="check.png" />
+    <Compile Include="bmp-scanner.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libzbar-cil\libzbar-cil.csproj">
+    <ProjectReference Include="..\..\libzbar-cil\libzbar-cil.csproj">
       <Project>{58D63AA2-59A3-4E02-B833-819727FA8CEE}</Project>
       <Name>libzbar-cil</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="barcode.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

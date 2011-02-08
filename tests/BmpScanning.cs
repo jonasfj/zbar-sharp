@@ -1,6 +1,6 @@
 /*------------------------------------------------------------------------
- *  Copyright 2009 (c) Brandon McCaig <jopsen@gmail.com>
- *
+ *  Copyright 2010 (c) Jonas Finnemann Jensen <jopsen@gmail.com>
+ * 
  *  This file is part of the ZBar CIL Wrapper.
  *
  *  The ZBar CIL Wrapper is free software; you can redistribute it
@@ -21,40 +21,30 @@
  *------------------------------------------------------------------------*/
 
 using System;
+using NUnit.Framework;
+using ZBar;
+using System.Reflection;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.IO;
 
-namespace ZBar
+namespace tests
 {
-	public static class ZBar
+	/// <summary>
+	/// Simple test of BMP conversation and scanning
+	/// </summary>
+	[TestFixture()]
+	public class BmpScanning
 	{
-		/// <value>
-		/// Get version of the underlying zbar library
-		/// </value>
-		public static Version Version{
-			get{
-				uint major = 0;
-				uint minor = 0;
-
-				unsafe{
-					if(NativeMethods.zbar_version(&major, &minor) != 0){
-						throw new Exception("Failed to get ZBar version.");
-					}
-				}
-
-				return new Version((int)major, (int)minor);
-		   }
+		[Test()]
+		public void ConvertAndScanBMP(){
+			System.Drawing.Image img = System.Drawing.Image.FromFile("images/barcode.bmp");
+			
+			ImageScanner scanner = new ImageScanner();
+			List<Symbol> symbols = scanner.Scan(img);
+			
+			Assert.AreEqual(1, symbols.Count, "Didn't find the symbols");
+			Assert.IsTrue(SymbolType.EAN13 == symbols[0].Type, "Didn't get the barcode type right");
+			Assert.AreEqual("0123456789012", symbols[0].Data, "Didn't read the correct barcode");
 		}
-
-		#region Extern C Functions.
-
-		private static class NativeMethods{
-			[DllImport("libzbar")]
-			public static unsafe extern int zbar_version(uint* major, uint* minor);
-		}
-
-		#endregion
 	}
 }
