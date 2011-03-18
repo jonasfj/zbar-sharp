@@ -4,3 +4,5 @@ bin/
 */*/gtk-gui/*.cs
 *.pidb
 zbar-sharp.userprefs
+test-results/
+tests/test-results/

@@ -26,13 +26,13 @@ using System.Text;
 using System.IO;
 using ZBar;
 
-namespace BMPScanner
+namespace Example.ImageScanner
 {
 	/// <summary>
 	/// Simple example program that scans images given as argument 
 	/// </summary>
 	/// <remarks>If no argument is provided, it scans a file called barcode.bmp</remarks>
-	class Program
+	class SimpleImageScanner
 	{
 		static void Main(string[] args){
 			//List of files to scan
@@ -49,7 +49,7 @@ namespace BMPScanner
 				files.Add("barcode.bmp");
 			
 			//Create an instance of scanner
-			using(ImageScanner scanner = new ImageScanner()){
+			using(var scanner = new ZBar.ImageScanner()){
 				//We won't use caching here
 				scanner.Cache = false;
 				

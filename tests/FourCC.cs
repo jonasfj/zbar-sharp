@@ -23,7 +23,7 @@ using System;
 using NUnit.Framework;
 using ZBar;
 
-namespace tests
+namespace Tests
 {
 	/// <summary>
 	/// Tests to see if Image.FourCC works

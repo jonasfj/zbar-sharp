@@ -27,7 +27,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
 
-namespace tests
+namespace Tests
 {
 	/// <summary>
 	/// Simple test of BMP conversation and scanning

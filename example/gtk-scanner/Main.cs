@@ -4,7 +4,7 @@ using Gtk;
 /// <summary>
 /// Example shows how to use the GtkZBar.Scanner widget
 /// </summary>
-namespace example
+namespace Example.GtkScanner
 {
 	class MainClass
 	{

@@ -9,6 +9,7 @@
     <OutputType>Exe</OutputType>
     <AssemblyName>bmp-scanner</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>bmpscanner</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,7 +32,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bmp-scanner.cs" />
+    <Compile Include="image-scanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libzbar-cil\libzbar-cil.csproj">

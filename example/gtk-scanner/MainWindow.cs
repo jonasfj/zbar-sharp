@@ -23,6 +23,8 @@
 using System;
 using Gtk;
 
+namespace Example.GtkScanner{
+
 public partial class MainWindow: Gtk.Window
 {	
 	public MainWindow (): base (Gtk.WindowType.Toplevel){
@@ -76,4 +78,6 @@ public partial class MainWindow: Gtk.Window
 	protected virtual void OnRotateButtonClicked (object sender, System.EventArgs e){
 		this.Scanner.Rotate = this.RotateButton.Active;
 	}
+}
+	
 }

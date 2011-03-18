@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libzbar-cil", "libzbar-cil\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{E10E1933-003B-4E0E-8B58-A88E4CA36670}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bmp-scanner", "example\bmp-scanner\bmp-scanner.csproj", "{0DEB2082-ECDC-4728-BC26-CFB6EB5FADAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "image-scanner", "example\image-scanner\image-scanner.csproj", "{0DEB2082-ECDC-4728-BC26-CFB6EB5FADAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gtk-scanner", "example\gtk-scanner\gtk-scanner.csproj", "{A7EB2EBD-8B47-4470-867C-168DCBDC7E2E}"
 EndProject
@@ -48,7 +48,6 @@ Global
 		{A7EB2EBD-8B47-4470-867C-168DCBDC7E2E} = {E10E1933-003B-4E0E-8B58-A88E4CA36670}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		version = 0.1
-		StartupItem = example\bmp-scanner\bmp-scanner.csproj
+		StartupItem = example\image-scanner\image-scanner.csproj
 	EndGlobalSection
 EndGlobal

@@ -8,7 +8,7 @@
     <widget-library name="../../../gtkzbar-cil/bin/Debug/gtkzbar-cil.dll" />
     <widget-library name="../bin/Debug/gtk-scanner.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="563 587">
+  <widget class="Gtk.Window" id="Example.GtkScanner.MainWindow" design-size="563 587">
     <property name="MemberName" />
     <property name="Title" translatable="yes">MainWindow</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -18,7 +18,7 @@
       <widget class="Gtk.VPaned" id="vpaned1">
         <property name="MemberName" />
         <property name="CanFocus">True</property>
-        <property name="Position">144</property>
+        <property name="Position">367</property>
         <child>
           <widget class="Gtk.VBox" id="vbox1">
             <property name="MemberName" />
