@@ -422,14 +422,6 @@ namespace GtkZBar
 		/// If the camera is facing down media will look the same on screen
 		/// </remarks>
 		public bool Rotate { get; set; }
-
-		/// <value>
-		/// Make the image smaller, default 1
-		/// </value>
-		/// <remarks>
-		/// If the camera is facing down media will look the same on screen
-		/// </remarks>
-		//public int Size { get; set; }
 		
 		/// <summary>
 		/// List potential video sources on the system
