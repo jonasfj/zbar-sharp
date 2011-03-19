@@ -30,8 +30,6 @@
                 <property name="Mute">False</property>
                 <property name="Flip">False</property>
                 <property name="Rotate">False</property>
-                <signal name="BarScanned" handler="OnScannerBarScanned" />
-                <signal name="Error" handler="OnScannerError" />
               </widget>
               <packing>
                 <property name="Position">0</property>

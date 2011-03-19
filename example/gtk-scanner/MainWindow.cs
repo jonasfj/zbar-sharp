@@ -28,7 +28,11 @@ namespace Example.GtkScanner{
 public partial class MainWindow: Gtk.Window
 {	
 	public MainWindow (): base (Gtk.WindowType.Toplevel){
-		Build ();
+		Build();
+		
+		this.Scanner.Error += new EventHandler<GtkZBar.ErrorEventArgs>(this.OnScannerError);
+		this.Scanner.BarScanned += new EventHandler<GtkZBar.BarScannedArgs>(this.OnScannerBarScanned);
+			
 		this.Scanner.Open("/dev/video0");
 		Scanner.Rotate = true;
 		this.VideoDevEntry.Text = "/dev/video0";
