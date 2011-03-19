@@ -57,62 +57,66 @@
 <a name="l00028"></a><a class="code" href="class_example_1_1_gtk_scanner_1_1_main_window.htm">00028</a> <span class="keyword">public</span> <span class="keyword">partial class </span><a class="code" href="class_example_1_1_gtk_scanner_1_1_main_window.htm">MainWindow</a>: Gtk.Window
 <a name="l00029"></a>00029 {   
 <a name="l00030"></a>00030     <span class="keyword">public</span> <a class="code" href="class_example_1_1_gtk_scanner_1_1_main_window.htm">MainWindow</a> (): base (Gtk.WindowType.Toplevel){
-<a name="l00031"></a>00031         Build ();
-<a name="l00032"></a>00032         this.Scanner.Open(<span class="stringliteral">&quot;/dev/video0&quot;</span>);
-<a name="l00033"></a>00033         Scanner.Rotate = <span class="keyword">true</span>;
-<a name="l00034"></a>00034         this.VideoDevEntry.Text = <span class="stringliteral">&quot;/dev/video0&quot;</span>;
-<a name="l00035"></a>00035         this.UpdateMuteButton();
-<a name="l00036"></a>00036     }
-<a name="l00037"></a>00037     
-<a name="l00038"></a>00038     <span class="keyword">protected</span> <span class="keywordtype">void</span> OnDeleteEvent(<span class="keywordtype">object</span> sender, DeleteEventArgs a){
-<a name="l00039"></a>00039         this.Scanner.Close();
-<a name="l00040"></a>00040         this.muteImage.Destroy();
-<a name="l00041"></a>00041         this.audioImage.Destroy();
-<a name="l00042"></a>00042         Application.Quit();
-<a name="l00043"></a>00043         a.RetVal = <span class="keyword">true</span>;
-<a name="l00044"></a>00044     }
-<a name="l00045"></a>00045 
-<a name="l00046"></a>00046     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnScannerBarScanned (<span class="keywordtype">object</span> sender, GtkZBar.BarScannedArgs e){
-<a name="l00047"></a>00047         this.ResultView.Buffer.Text = <span class="stringliteral">&quot;Scanned: &quot;</span> + e.Symbol.ToString() + <span class="stringliteral">&quot;\n&quot;</span> + this.ResultView.Buffer.Text;
+<a name="l00031"></a>00031         Build();
+<a name="l00032"></a>00032         
+<a name="l00033"></a>00033         this.Scanner.Error += <span class="keyword">new</span> EventHandler&lt;GtkZBar.ErrorEventArgs&gt;(this.OnScannerError);
+<a name="l00034"></a>00034         this.Scanner.BarScanned += <span class="keyword">new</span> EventHandler&lt;GtkZBar.BarScannedArgs&gt;(this.OnScannerBarScanned);
+<a name="l00035"></a>00035             
+<a name="l00036"></a>00036         this.Scanner.Open(<span class="stringliteral">&quot;/dev/video0&quot;</span>);
+<a name="l00037"></a>00037         Scanner.Rotate = <span class="keyword">true</span>;
+<a name="l00038"></a>00038         this.VideoDevEntry.Text = <span class="stringliteral">&quot;/dev/video0&quot;</span>;
+<a name="l00039"></a>00039         this.UpdateMuteButton();
+<a name="l00040"></a>00040     }
+<a name="l00041"></a>00041     
+<a name="l00042"></a>00042     <span class="keyword">protected</span> <span class="keywordtype">void</span> OnDeleteEvent(<span class="keywordtype">object</span> sender, DeleteEventArgs a){
+<a name="l00043"></a>00043         this.Scanner.Close();
+<a name="l00044"></a>00044         this.muteImage.Destroy();
+<a name="l00045"></a>00045         this.audioImage.Destroy();
+<a name="l00046"></a>00046         Application.Quit();
+<a name="l00047"></a>00047         a.RetVal = <span class="keyword">true</span>;
 <a name="l00048"></a>00048     }
 <a name="l00049"></a>00049 
-<a name="l00050"></a>00050     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnOpenButtonClicked (<span class="keywordtype">object</span> sender, System.EventArgs e){
-<a name="l00051"></a>00051         this.Scanner.Open(this.VideoDevEntry.Text);
+<a name="l00050"></a>00050     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnScannerBarScanned (<span class="keywordtype">object</span> sender, GtkZBar.BarScannedArgs e){
+<a name="l00051"></a>00051         this.ResultView.Buffer.Text = <span class="stringliteral">&quot;Scanned: &quot;</span> + e.Symbol.ToString() + <span class="stringliteral">&quot;\n&quot;</span> + this.ResultView.Buffer.Text;
 <a name="l00052"></a>00052     }
 <a name="l00053"></a>00053 
-<a name="l00054"></a>00054     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnScannerError (<span class="keywordtype">object</span> sender, GtkZBar.ErrorEventArgs e){
-<a name="l00055"></a>00055         Console.WriteLine(<span class="stringliteral">&quot;Scanner error: &quot;</span> + e.Message);
+<a name="l00054"></a>00054     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnOpenButtonClicked (<span class="keywordtype">object</span> sender, System.EventArgs e){
+<a name="l00055"></a>00055         this.Scanner.Open(this.VideoDevEntry.Text);
 <a name="l00056"></a>00056     }
-<a name="l00057"></a>00057     
-<a name="l00058"></a>00058     <span class="comment">//Load images from resources</span>
-<a name="l00059"></a>00059     <span class="keyword">private</span> Gtk.Image muteImage = <span class="keyword">new</span> Gtk.Image(null, <span class="stringliteral">&quot;muted.png&quot;</span>);
-<a name="l00060"></a>00060     <span class="keyword">private</span> Gtk.Image audioImage = <span class="keyword">new</span> Gtk.Image(null, <span class="stringliteral">&quot;audio.png&quot;</span>);
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnScannerError (<span class="keywordtype">object</span> sender, GtkZBar.ErrorEventArgs e){
+<a name="l00059"></a>00059         Console.WriteLine(<span class="stringliteral">&quot;Scanner error: &quot;</span> + e.Message);
+<a name="l00060"></a>00060     }
 <a name="l00061"></a>00061     
-<a name="l00062"></a>00062     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnMuteButtonClicked (<span class="keywordtype">object</span> sender, System.EventArgs e){
-<a name="l00063"></a>00063         this.Scanner.Mute = !this.Scanner.Mute;
-<a name="l00064"></a>00064         this.UpdateMuteButton();
-<a name="l00065"></a>00065     }
-<a name="l00066"></a>00066     
-<a name="l00067"></a>00067     <span class="keyword">private</span> <span class="keywordtype">void</span> UpdateMuteButton(){
-<a name="l00068"></a>00068         <span class="keywordflow">if</span>(this.Scanner.Mute)
-<a name="l00069"></a>00069             this.MuteButton.Image = this.muteImage;
-<a name="l00070"></a>00070         <span class="keywordflow">else</span>
-<a name="l00071"></a>00071             this.MuteButton.Image = this.audioImage;
-<a name="l00072"></a>00072     }
-<a name="l00073"></a>00073 
-<a name="l00074"></a>00074     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnFlipButtonClicked (<span class="keywordtype">object</span> sender, System.EventArgs e){
-<a name="l00075"></a>00075         this.Scanner.Flip = this.FlipButton.Active;
+<a name="l00062"></a>00062     <span class="comment">//Load images from resources</span>
+<a name="l00063"></a>00063     <span class="keyword">private</span> Gtk.Image muteImage = <span class="keyword">new</span> Gtk.Image(null, <span class="stringliteral">&quot;muted.png&quot;</span>);
+<a name="l00064"></a>00064     <span class="keyword">private</span> Gtk.Image audioImage = <span class="keyword">new</span> Gtk.Image(null, <span class="stringliteral">&quot;audio.png&quot;</span>);
+<a name="l00065"></a>00065     
+<a name="l00066"></a>00066     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnMuteButtonClicked (<span class="keywordtype">object</span> sender, System.EventArgs e){
+<a name="l00067"></a>00067         this.Scanner.Mute = !this.Scanner.Mute;
+<a name="l00068"></a>00068         this.UpdateMuteButton();
+<a name="l00069"></a>00069     }
+<a name="l00070"></a>00070     
+<a name="l00071"></a>00071     <span class="keyword">private</span> <span class="keywordtype">void</span> UpdateMuteButton(){
+<a name="l00072"></a>00072         <span class="keywordflow">if</span>(this.Scanner.Mute)
+<a name="l00073"></a>00073             this.MuteButton.Image = this.muteImage;
+<a name="l00074"></a>00074         <span class="keywordflow">else</span>
+<a name="l00075"></a>00075             this.MuteButton.Image = this.audioImage;
 <a name="l00076"></a>00076     }
-<a name="l00077"></a>00077     
-<a name="l00078"></a>00078     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnRotateButtonClicked (<span class="keywordtype">object</span> sender, System.EventArgs e){
-<a name="l00079"></a>00079         this.Scanner.Rotate = this.RotateButton.Active;
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnFlipButtonClicked (<span class="keywordtype">object</span> sender, System.EventArgs e){
+<a name="l00079"></a>00079         this.Scanner.Flip = this.FlipButton.Active;
 <a name="l00080"></a>00080     }
-<a name="l00081"></a>00081 }
-<a name="l00082"></a>00082     
-<a name="l00083"></a>00083 }
+<a name="l00081"></a>00081     
+<a name="l00082"></a>00082     <span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keywordtype">void</span> OnRotateButtonClicked (<span class="keywordtype">object</span> sender, System.EventArgs e){
+<a name="l00083"></a>00083         this.Scanner.Rotate = this.RotateButton.Active;
+<a name="l00084"></a>00084     }
+<a name="l00085"></a>00085 }
+<a name="l00086"></a>00086     
+<a name="l00087"></a>00087 }
 </pre></div></div>
 </div>
-<hr class="footer"/><address class="footer"><small>Generated on Fri Mar 18 2011 19:02:28 for zbar-sharp by&nbsp;
+<hr class="footer"/><address class="footer"><small>Generated on Sat Mar 19 2011 17:44:19 for zbar-sharp by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1 </small></address>
 </body>
