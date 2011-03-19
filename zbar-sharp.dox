@@ -8,13 +8,15 @@
  * 
  * The GtkZBar namespace (gtkzbar-cil.dll) contains a Gtk# widget for
  * scanning bar codes with Gtk#.
- * The example namespace (example.exe) is an example application that
- * shows how to use the Scanner widget.
+ * The example namespace contains two example applications.
+ * Example.ImageScanner is a simple console application that shows how to use
+ * libzbar-cil. The other application Example.GtkScanner is a Gtk# application
+ * that shows how to use the Scanner widget.
  * 
  * \section fromsrc Building from source
  * The source can be build using MonoDevelop or Visual Studio, however,
  * the example needs MonoDevelop for GUI generation. Note, that libzbar
- * must be in the library path as either libzbar.dll or libzbar.so, or
+ * must be in the library path as either libzbar.dll or libzbar.so, for
  * Windows and Linux respectively.
  * 
  */
