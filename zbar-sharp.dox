@@ -4,8 +4,7 @@
  * ZBar# is contains bindings to a subset of the mid-level zbar 
  * interfaces, mainly the image scanner and video abstractions.
  * These bindings is in the ZBar namespace (libzbar-cil.dll), and
- * are build against ZBar version 0.9, however, it should also work
- * newer ZBar versions (tested with 0.10).
+ * are build against ZBar version 0.10.
  * 
  * The GtkZBar namespace (gtkzbar-cil.dll) contains a Gtk# widget for
  * scanning bar codes with Gtk#.
