@@ -103,18 +103,6 @@ namespace ZBar
 			this.Format = FourCC('R', 'G', 'B', '3');
 		}
 		
-		/// <summary>
-		/// Load image from file in the same format as written by Dump()
-		/// </summary>
-		/// <param name="filename">
-		/// Path to the file to load the image from
-		/// </param>
-		public Image(string filename){
-			this.handle = zbar_image_read(filename);
-			if(this.handle == IntPtr.Zero)
-				throw new Exception("Failed to load image from: " + filename);
-		}
-		
 		/// <value>
 		/// Get a pointer to the unmanaged image resource.
 		/// </value>
@@ -127,22 +115,24 @@ namespace ZBar
 		#region Wrapper methods
 		
 		/// <summary>
-		/// Dump raw image data to a file for debug.
+		/// Convert bitmap
 		/// </summary>
-		/// <remarks>
-		/// the data will be prefixed with a 16 byte header consisting of:
-		///  * 4 bytes uint = 0x676d697a ("zimg")
-		///  * 4 bytes format fourcc
-		///  * 2 bytes width
-		///  * 2 bytes height
-		///  * 4 bytes size of following image data in bytes
-		/// </remarks>
-		/// <param name="filebase">
-		/// base filename, appended with ".XXXX.zimg" where XXXX is the format fourcc 
-		/// </param>
-		public void Dump(string filebase){
-			if(zbar_image_write(this.handle, filebase) != 0)
-				throw new ZBarException(this.handle);
+		/// <returns>
+		/// A <see cref="System.Drawing.Bitmap"/> representation of this image
+		/// </returns>
+		public System.Drawing.Bitmap ToBitmap(){
+			Bitmap img = new Bitmap((int)Width, (int)Height, PixelFormat.Format24bppRgb);
+			//TODO: Test and optimize this :)
+			using(Image rgb = Convert(FourCC('R', 'G', 'B', '3'))){
+				byte[] data = rgb.Data;
+				BitmapData bdata = img.LockBits(new Rectangle(0, 0, img.Width, img.Height),
+				                                ImageLockMode.WriteOnly,
+				                                PixelFormat.Format24bppRgb);
+				Marshal.Copy(data, 0, bdata.Scan0, data.Length);
+				img.UnlockBits(bdata);
+			}
+			
+			return img;
 		}
 		
 		/// <value>
@@ -472,39 +462,6 @@ namespace ZBar
 		/// </summary>
 		[DllImport("libzbar")]
 		private static extern IntPtr zbar_image_get_userdata(IntPtr image);
-		
-		/// <summary>dump raw image data to a file for debug.
-        /// </summary>
-        /// <remarks>
-		/// Rhe data will be prefixed with a 16 byte header consisting of:
-		///  - 4 bytes uint = 0x676d697a ("zimg")
-		///  - 4 bytes format fourcc
-		///  - 2 bytes width
-		///  - 2 bytes height
-		///  - 4 bytes size of following image data in bytes
-		/// this header can be dumped w/eg:
-		/// @verbatim
-		///        od -Ax -tx1z -N16 -w4 [file]
-		/// @endverbatim
-		/// for some formats the image can be displayed/converted using
-		/// ImageMagick, eg:
-		/// @verbatim
-		///        display -size 640x480+16 [-depth ?] [-sampling-factor ?x?] \
-		///            {GRAY,RGB,UYVY,YUV}:[file]
-		/// @endverbatim
-		/// 
-		/// @param image the image object to dump
-		/// @param filebase base filename, appended with ".XXXX.zimg" where
-		/// XXXX is the format fourcc
-		/// @returns 0 on success or a system error code on failure
-		/// </summary>
-		[DllImport("libzbar")]
-		private static extern int zbar_image_write(IntPtr image, string filebase);
-		
-		/// <summary>read back an image in the format written by zbar_image_write()
-		/// </summary>
-		[DllImport("libzbar")]
-		private static extern IntPtr zbar_image_read(string filename);
 		#endregion
 	}
 }
