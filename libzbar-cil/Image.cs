@@ -90,6 +90,9 @@ namespace ZBar
 					g.PageUnit = GraphicsUnit.Pixel;
 					g.DrawImageUnscaled(image, 0, 0);
 				}
+				// Vertically flip image as we are about to store it as BMP on a memory stream below
+				// This way we don't need to worry about BMP being upside-down when copying to byte array
+				bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
 				using(MemoryStream ms = new MemoryStream()){
 					bitmap.Save(ms, ImageFormat.Bmp);
 					ms.Seek(54, SeekOrigin.Begin);
