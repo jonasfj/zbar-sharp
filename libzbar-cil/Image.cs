@@ -88,7 +88,7 @@ namespace ZBar
 			using(Bitmap bitmap = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb)){
 				using(Graphics g = Graphics.FromImage(bitmap)){
 					g.PageUnit = GraphicsUnit.Pixel;
-					g.DrawImageUnscaled(image, 0, 0);
+					g.DrawImage(image, new Rectangle(0, 0, image.Width, image.Height));
 				}
 				// Vertically flip image as we are about to store it as BMP on a memory stream below
 				// This way we don't need to worry about BMP being upside-down when copying to byte array
