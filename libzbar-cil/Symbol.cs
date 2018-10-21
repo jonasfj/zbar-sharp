@@ -22,6 +22,7 @@
  *------------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace ZBar
@@ -51,12 +52,23 @@ namespace ZBar
 			this.type = (SymbolType)zbar_symbol_get_type(symbol);
 			this.quality = zbar_symbol_get_quality(symbol);
 			this.count = zbar_symbol_get_count(symbol);
+
+            int locationsize = (int)zbar_symbol_get_loc_size(symbol);
+            location = new List<System.Drawing.Point>(locationsize);
+            for (uint i = 0; i < locationsize; i++)
+            {
+                System.Drawing.Point p = new System.Drawing.Point();
+                p.X = zbar_symbol_get_loc_x(symbol, i);
+                p.Y = zbar_symbol_get_loc_y(symbol, i);
+                location.Add(p);
+            }
 		}
 		
 		private string data;
 		private int quality;
 		private int count;
 		private SymbolType type;
+        private List<System.Drawing.Point> location;
 
 		public override string ToString(){
 			return this.type.ToString() + " " + this.data;
@@ -108,7 +120,14 @@ namespace ZBar
 				return this.type;
 			}
 		}
-		
+		/// <summary>
+        /// Location of decoded symbol
+        /// </summary>
+        public List<System.Drawing.Point> Location {
+            get {
+                return this.location;
+            }
+        }
 		#endregion
 		
 		#region Extern C functions
